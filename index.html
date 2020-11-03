@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valida DUI</title>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+
+        body {
+            width: 50%;
+            max-width: 800px;
+            min-width: 480px;
+            margin: 0 auto;
+        }
+
+        .correctOrIncorrect {
+            color: white;
+            padding: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Validar si un DUI es valido o no</h1>
+
+    <p>Ingresar un DUI (9 dígitos) y validar si este es correcto o NO</p>
+
+    <div class="form">
+        <label for="isDuiField">Ingresa el número de DUI</label><input type="text" id="isDuiField" class="isDuiField">
+        <input type="submit" value="Validar" class="isDuiSubmit">
+    </div>
+
+    <div class="resultParas">
+        <p class="dui"></p>
+        <p class="lastResult"></p>
+        <p class="correctOrIncorrect"></p>
+    </div>
+
+    <script>
+
+        const duiEnter = document.querySelector('.dui');
+        const lastResult = document.querySelector('.lastResult');
+        const correctOrIncorrect = document.querySelector('.correctOrIncorrect');
+
+        const isDuiSubmit = document.querySelector('.isDuiSubmit');
+        const duiField = document.querySelector('.isDuiField');
+
+        // let guessCount = 1;
+        let resetButton;
+        
+
+        let duia = duia.addEventListener ('onchange', function () {
+            duia = duiField.value;
+        });
+
+
+        // duiField.onchange = function() { 
+        //     let duia = duiField.value;
+        // }
+        
+
+        let isDUI = dui => {
+            console.log(dui);
+            if (dui.length == 9) {
+                let digits = dui.substr(0, 8);
+                console.log(`8 digitos: ${digits}`);
+                let dig_ve = dui.substr(8, 1);
+                console.log(`Digito vericador: ${dig_ve}`);
+                let sum = 0;
+                for (let i = 0; i < digits.length; i++) {
+                    let d = parseInt(digits.charAt(i), 10);
+                    console.log(`d = ${d}`);
+                    sum += (9 - i) * d;
+                }
+                console.log(`suma: ${sum}`);
+                let calc_dig = 10 - (sum % 10);
+                let module = sum % 10;
+                console.log(`Module: ${module}`)
+                console.log(`calc_dig 10 - ${sum % 10} = ${calc_dig}`);
+
+                calc_dig = calc_dig == 10 ? 0 : calc_dig;
+                if (dig_ve == calc_dig) {
+
+                    console.log(`dig_ve resultado: ${calc_dig}`);
+                    correctOrIncorrect.textContent = `¡El DUI: ${dui} es valido!`;
+                    correctOrIncorrect.style.backgroundColor = 'green';
+                    resetContent();
+                } else {
+                    correctOrIncorrect.textContent = `¡El DUI: ${dui} NO es valido!`;
+                    correctOrIncorrect.style.backgroundColor = 'red';
+                    resetContent()
+                }
+            } else {
+                duiEnter.textContent = 'Ingresa un DUI con 9 dígitos';
+                duiEnter.style.backgroundColor = 'yellow';
+            }
+        }
+
+        isDuiSubmit.addEventListener('click', function() {
+            isDUI(duia);
+        }, false);
+
+        function resetContent() {
+            duiField.value = '';
+            duiField.focus();
+            duiEnter.textContent = '';
+            duiEnter.style.backgroundColor = 'white';
+        }
+
+    </script>
+</body>
+
+</html>
